@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SSAMNA"
 include(":app")
- 
+include(":common")

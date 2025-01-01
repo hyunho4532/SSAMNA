@@ -47,7 +47,8 @@ android {
 }
 
 dependencies {
-
+    implementation("com.airbnb.android:lottie-compose:6.6.2")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

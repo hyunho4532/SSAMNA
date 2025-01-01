@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.asetec.presentation.R
 import com.asetec.presentation.ui.tool.CustomCard
 import com.asetec.presentation.ui.tool.Spacer
 
@@ -62,8 +63,9 @@ fun LoginScreen() {
                 .align(Alignment.CenterHorizontally)
         ) {
             CustomCard(
-                width = 300.dp, height = 40.dp,
-                text = "구글 계정으로 로그인"
+                width = 300.dp, height = 52.dp,
+                text = "구글 계정으로 로그인",
+                id = R.drawable.google
             )
         }
         
@@ -73,8 +75,9 @@ fun LoginScreen() {
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             CustomCard(
-                width = 300.dp, height = 40.dp,
-                text = "카카오 계정으로 로그인"
+                width = 300.dp, height = 52.dp,
+                text = "카카오 계정으로 로그인",
+                id = R.drawable.kakao
             )
         }
     }

@@ -47,6 +47,8 @@ android {
 }
 
 dependencies {
+    implementation("io.github.jan-tennert.supabase:supabase-kt-iosarm64:0.9.0")
+    implementation("androidx.browser:browser:1.5.0")
     implementation("com.airbnb.android:lottie-compose:6.6.2")
     implementation("androidx.navigation:navigation-compose:2.6.0")
     implementation(libs.androidx.core.ktx)
@@ -66,4 +68,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(project(":data"))
 }

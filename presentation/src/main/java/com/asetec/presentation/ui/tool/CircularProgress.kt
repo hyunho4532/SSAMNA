@@ -19,7 +19,7 @@ fun CircularProgress() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = "운동의 여정을 불러오는 중")
-        Spacer(width = 16.dp)
+        Spacer(width = 16.dp, height = 0.dp)
         CircularProgressIndicator(
             modifier = Modifier
                 .width(24.dp)

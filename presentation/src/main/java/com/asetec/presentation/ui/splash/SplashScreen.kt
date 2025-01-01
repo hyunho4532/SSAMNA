@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.asetec.presentation.R
 import com.asetec.presentation.animation.SplashLoader
 import com.asetec.presentation.ui.tool.CircularProgress
 import kotlinx.coroutines.delay
@@ -35,7 +36,7 @@ fun SplashScreen(navController: NavController) {
                 .fillMaxWidth()
                 .height(480.dp)
         ) {
-            SplashLoader()
+            SplashLoader(R.raw.splash)
         }
 
         CircularProgress()

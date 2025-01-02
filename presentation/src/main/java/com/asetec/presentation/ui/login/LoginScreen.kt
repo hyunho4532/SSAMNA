@@ -1,14 +1,13 @@
 package com.asetec.presentation.ui.login
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,9 +17,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.asetec.data.supabase.SupabaseModule
 import com.asetec.presentation.R
 import com.asetec.presentation.ui.tool.CustomCard
 import com.asetec.presentation.ui.tool.Spacer
+import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.providers.Google
 
 @Composable
 @Preview
@@ -61,6 +63,12 @@ fun LoginScreen() {
         Box (
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
+                .clickable {
+                    val result = SupabaseModule().supabaseClient.auth.signInWith(
+                        provider = Google,
+
+                    )
+                }
         ) {
             CustomCard(
                 width = 300.dp, height = 52.dp,

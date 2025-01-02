@@ -47,7 +47,9 @@ android {
 }
 
 dependencies {
-    implementation("io.github.jan-tennert.supabase:supabase-kt-iosarm64:0.9.0")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+    implementation(platform("io.github.jan-tennert.supabase:bom:2.4.2"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("androidx.browser:browser:1.5.0")
     implementation("com.airbnb.android:lottie-compose:6.6.2")
     implementation("androidx.navigation:navigation-compose:2.6.0")

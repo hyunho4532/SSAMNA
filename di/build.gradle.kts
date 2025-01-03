@@ -1,5 +1,3 @@
-import java.util.Properties
-
 plugins {
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
@@ -8,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.asetec.data"
+    namespace = "com.asetec.di"
     compileSdk = 34
 
     defaultConfig {
@@ -16,16 +14,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        val properties = Properties()
-        properties.load(project.rootProject.file("local.properties").inputStream())
-
-        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${properties.getProperty("SUPABASE_ANON_KEY")}\"")
-        buildConfigField("String", "SUPABASE_URL", "\"${properties.getProperty("SUPABASE_URL")}\"")
-    }
-
-    buildFeatures {
-        buildConfig = true
     }
 
     buildTypes {
@@ -49,9 +37,6 @@ android {
 dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
-    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
-    implementation(platform("io.github.jan-tennert.supabase:bom:2.4.2"))
-    implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

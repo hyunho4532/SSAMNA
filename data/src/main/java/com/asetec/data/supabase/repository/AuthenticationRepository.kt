@@ -1,5 +1,6 @@
 package com.asetec.data.supabase.repository
 
-interface AuthRepository {
+
+interface AuthenticationRepository {
     suspend fun signInWithGoogle(): Boolean
 }

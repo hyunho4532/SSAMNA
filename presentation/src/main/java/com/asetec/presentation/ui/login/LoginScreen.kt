@@ -13,20 +13,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.asetec.data.supabase.SupabaseModule
+import androidx.credentials.CredentialManager
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.presentation.R
 import com.asetec.presentation.ui.tool.CustomCard
 import com.asetec.presentation.ui.tool.Spacer
-import io.github.jan.supabase.gotrue.auth
-import io.github.jan.supabase.gotrue.providers.Google
+import com.asetec.presentation.viewmodel.SignInViewModel
+import java.util.UUID
 
 @Composable
 @Preview
-fun LoginScreen() {
+fun LoginScreen(
+    viewModel: SignInViewModel = hiltViewModel()
+) {
+
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,10 +71,10 @@ fun LoginScreen() {
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .clickable {
-                    val result = SupabaseModule().supabaseClient.auth.signInWith(
-                        provider = Google,
+                    val credentialManager = CredentialManager.create(context)
 
-                    )
+                    val rawNonce = UUID.randomUUID().toString()
+                    
                 }
         ) {
             CustomCard(

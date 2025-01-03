@@ -1,10 +1,10 @@
 package com.asetec.data.supabase
 
+import com.asetec.data.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.cdimascio.dotenv.Dotenv
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.gotrue.Auth
@@ -18,14 +18,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object SupabaseModule {
-    private val dotenv = Dotenv.load()
-
     @Provides
     @Singleton
     fun provideSupabaseClient(): SupabaseClient {
         return createSupabaseClient(
-            supabaseUrl = dotenv["SUPABASE_URL"],
-            supabaseKey = dotenv["SUPABASE_KEY"]
+            supabaseUrl = BuildConfig.SUPABASE_URL,
+            supabaseKey = BuildConfig.SUPABASE_ANON_KEY
         ) {
             install(Postgrest)
             install(Auth) {

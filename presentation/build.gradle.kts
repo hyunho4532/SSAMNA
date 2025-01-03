@@ -1,4 +1,6 @@
 plugins {
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
@@ -47,6 +49,14 @@ android {
 }
 
 dependencies {
+    implementation("androidx.credentials:credentials:1.2.2")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("io.ktor:ktor-client-android:2.3.1")
+    implementation("io.ktor:ktor-client-core:2.3.1")
+    implementation("io.ktor:ktor-utils:2.3.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
     implementation(platform("io.github.jan-tennert.supabase:bom:2.4.2"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")

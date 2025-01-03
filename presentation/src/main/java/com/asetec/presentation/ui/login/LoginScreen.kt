@@ -1,5 +1,8 @@
 package com.asetec.presentation.ui.login
 
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -10,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,11 +23,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asetec.data.BuildConfig
 import com.asetec.presentation.R
+import com.asetec.presentation.api.GoogleApiContract
 import com.asetec.presentation.ui.tool.CustomCard
 import com.asetec.presentation.ui.tool.Spacer
 import com.asetec.presentation.viewmodel.SignInViewModel
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import java.security.MessageDigest
 import java.util.UUID
 
 @Composable
@@ -32,6 +44,13 @@ fun LoginScreen(
     viewModel: SignInViewModel = hiltViewModel()
 ) {
 
+    val authResultLauncher = rememberLauncherForActivityResult (
+        contract = GoogleApiContract()
+    ) { task ->
+        viewModel.onGoogleSignIn(task)
+    }
+
+    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
     Column(
@@ -71,10 +90,7 @@ fun LoginScreen(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .clickable {
-                    val credentialManager = CredentialManager.create(context)
-
-                    val rawNonce = UUID.randomUUID().toString()
-                    
+                    authResultLauncher.launch(1)
                 }
         ) {
             CustomCard(

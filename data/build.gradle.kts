@@ -47,6 +47,8 @@ android {
 }
 
 dependencies {
+    implementation("io.github.jan-tennert.supabase:compose-auth:2.4.2")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.4.2")
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")

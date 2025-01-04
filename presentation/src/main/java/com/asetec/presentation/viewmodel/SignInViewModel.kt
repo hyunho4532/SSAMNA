@@ -26,7 +26,7 @@ class SignInViewModel @Inject constructor(
     private val sharedPreferences = appContext.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
     /** 아이디 **/
-    private val _id = MutableStateFlow("")
+    private val _id = MutableStateFlow(getSavedLoginState())
     val id: Flow<String> = _id
 
     /** 이메일 **/
@@ -37,8 +37,8 @@ class SignInViewModel @Inject constructor(
     private val _name = MutableStateFlow("")
     val name: Flow<String> = _name
 
-    private fun getSavedLoginState(): String? {
-        return sharedPreferences.getString("id", "")
+    private fun getSavedLoginState(): String {
+        return sharedPreferences.getString("id", "")!!
     }
 
     private fun saveLoginState(id: String) {
@@ -47,18 +47,9 @@ class SignInViewModel @Inject constructor(
 
     fun onGoogleSignIn(task: Task<GoogleSignInAccount>?) {
         viewModelScope.launch {
-            try {
-                val account = task?.getResult(ApiException::class.java)
-                account?.let { signInAccount ->
-                    _id.value = signInAccount.id.toString()
-                    saveLoginState(signInAccount.id.toString())
-                } ?: run {
-                    _id.value = ""
-                    saveLoginState("")
-                }
-            } catch (e: ApiException) {
-                _id.value = ""
-                saveLoginState("")
+            authenticationRepository.signInWithGoogle(task) { id ->
+                _id.value = id
+                saveLoginState(id)
             }
         }
     }

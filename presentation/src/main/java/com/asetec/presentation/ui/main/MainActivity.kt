@@ -2,6 +2,7 @@ package com.asetec.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -33,14 +34,6 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-
-            checkLoginStateOnStart()
-        }
-    }
-
-    private fun checkLoginStateOnStart() {
-        if (!signInViewModel.id.equals("")) {
-            navigateToHome()
         }
     }
 

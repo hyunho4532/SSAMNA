@@ -15,12 +15,20 @@ import javax.inject.Inject
 class AuthenticationRepositoryImpl @Inject constructor(
     private val auth: Auth
 ) : AuthenticationRepository {
-    override fun signInWithGoogle(task: Task<GoogleSignInAccount>?): Boolean {
+    override fun signInWithGoogle(
+        task: Task<GoogleSignInAccount>?,
+        onSuccess: (id: String) -> Unit
+    ): Boolean {
+        try {
+            val account = task?.getResult(ApiException::class.java)
 
-        val account = task?.getResult(ApiException::class.java)
-
-        account?.let {
-            val idToken = account.idToken ?: return false
+            account?.let { signInAccount ->
+                onSuccess(signInAccount.id.toString())
+            } ?: run {
+                onSuccess("")
+            }
+        } catch (e: ApiException) {
+            onSuccess("")
         }
 
         return true

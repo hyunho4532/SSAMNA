@@ -1,6 +1,9 @@
 package com.asetec.data.supabase.repository
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.tasks.Task
+
 
 interface AuthenticationRepository {
-    suspend fun signInWithGoogle(idToken: String, nonce: String): Boolean
+    fun signInWithGoogle(task: Task<GoogleSignInAccount>?): Boolean
 }

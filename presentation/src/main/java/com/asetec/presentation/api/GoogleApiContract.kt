@@ -13,8 +13,9 @@ import com.google.android.gms.tasks.Task
 class GoogleApiContract : ActivityResultContract<Int, Task<GoogleSignInAccount>?>() {
     override fun createIntent(context: Context, input: Int): Intent {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(BuildConfig.SUPABASE_URL)
+            .requestIdToken(BuildConfig.WEB_GOOGLE_CLIENT_ID)
             .requestId()
+            .requestEmail()
             .build()
 
         val intent = GoogleSignIn.getClient(context, gso)

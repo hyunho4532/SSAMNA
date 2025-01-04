@@ -19,11 +19,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        val properties = Properties()
-        properties.load(project.rootProject.file("local.properties").inputStream())
-
-        buildConfigField("String", "WEB_GOOGLE_CLIENT_ID", "\"${properties.getProperty("WEB_GOOGLE_CLIENT_ID")}\"")
     }
 
     buildTypes {

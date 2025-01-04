@@ -22,6 +22,7 @@ android {
 
         buildConfigField("String", "SUPABASE_ANON_KEY", "\"${properties.getProperty("SUPABASE_ANON_KEY")}\"")
         buildConfigField("String", "SUPABASE_URL", "\"${properties.getProperty("SUPABASE_URL")}\"")
+        buildConfigField("String", "WEB_GOOGLE_CLIENT_ID", "\"${properties.getProperty("WEB_GOOGLE_CLIENT_ID")}\"")
     }
 
     buildFeatures {
@@ -47,6 +48,11 @@ android {
 }
 
 dependencies {
+    implementation("io.github.jan-tennert.supabase:compose-auth:2.4.2")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.4.2")
+    implementation("androidx.credentials:credentials:1.2.2")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("io.github.jan-tennert.supabase:compose-auth:2.4.2")
     implementation("io.github.jan-tennert.supabase:gotrue-kt:2.4.2")
     implementation("com.google.dagger:hilt-android:2.51.1")

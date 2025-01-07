@@ -1,7 +1,5 @@
 package com.asetec.presentation.ui.login
 
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,45 +11,39 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.credentials.CredentialManager
-import androidx.credentials.GetCredentialRequest
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.asetec.data.BuildConfig
+import androidx.navigation.NavController
 import com.asetec.presentation.R
 import com.asetec.presentation.api.GoogleApiContract
 import com.asetec.presentation.ui.tool.CustomCard
 import com.asetec.presentation.ui.tool.Spacer
 import com.asetec.presentation.viewmodel.SignInViewModel
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import java.security.MessageDigest
-import java.util.UUID
 
 @Composable
-@Preview
 fun LoginScreen(
-    viewModel: SignInViewModel = hiltViewModel()
+    viewModel: SignInViewModel = hiltViewModel(),
+    navController: NavController
 ) {
 
     val authResultLauncher = rememberLauncherForActivityResult (
         contract = GoogleApiContract()
     ) { task ->
-        viewModel.onGoogleSignIn(task)
+        viewModel.onGoogleSignIn(task) { onSuccess ->
+            if (onSuccess) {
+                navController.navigate("userInfo") {
+                    popUpTo("login") {
+                        inclusive = true
+                    }
+                }
+            }
+        }
     }
-
-    val coroutineScope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -99,7 +91,7 @@ fun LoginScreen(
                 id = R.drawable.google
             )
         }
-        
+
         Spacer(width = 0.dp, height = 16.dp)
 
         Box (

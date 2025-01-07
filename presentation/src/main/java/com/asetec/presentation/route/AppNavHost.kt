@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.asetec.presentation.ui.login.LoginScreen
+import com.asetec.presentation.ui.login.UserInfoScreen
 import com.asetec.presentation.ui.splash.OnBoardingScreen
 import com.asetec.presentation.ui.splash.SplashScreen
 
@@ -20,7 +21,10 @@ fun AppNavHost() {
             OnBoardingScreen(navController = navController)
         }
         composable("login") {
-            LoginScreen()
+            LoginScreen(navController = navController)
+        }
+        composable("userInfo") {
+            UserInfoScreen()
         }
     }
 }

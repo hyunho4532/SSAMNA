@@ -1,10 +1,12 @@
 package com.asetec.presentation.viewmodel
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.data.supabase.repository.AuthenticationRepository
+import com.asetec.presentation.ui.login.UserInfoScreen
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.SignInAccount
 import com.google.android.gms.common.api.ApiException
@@ -29,6 +31,10 @@ class SignInViewModel @Inject constructor(
     private val _id = MutableStateFlow(getSavedLoginState())
     val id: Flow<String> = _id
 
+    /** 나이 **/
+    private val _age = MutableStateFlow(0f)
+    val age: Flow<Float> = _age
+
     /** 이메일 **/
     private val _email = MutableStateFlow("")
     val email: Flow<String> = _email
@@ -37,19 +43,38 @@ class SignInViewModel @Inject constructor(
     private val _name = MutableStateFlow("")
     val name: Flow<String> = _name
 
+    /** 최근 운동 이름 **/
+    private val _recentExercise = MutableStateFlow("")
+    val recentExercise: Flow<String> = _recentExercise
+
+    /**
+     * NumberPicker에서 값이 변경될 때마다, 나이를 저장한다.
+     */
+    fun saveAge(age: Float) {
+        _age.value = age
+    }
+
+    /**
+     * SP에 담은 id 값을 가져온다.
+     */
     private fun getSavedLoginState(): String {
         return sharedPreferences.getString("id", "")!!
     }
 
+    /**
+     * 구글 로그인 진행 후, id 값을 SP에 담는다.
+     */
     private fun saveLoginState(id: String) {
         sharedPreferences.edit().putString("id", id).apply()
     }
 
-    fun onGoogleSignIn(task: Task<GoogleSignInAccount>?) {
+    fun onGoogleSignIn(task: Task<GoogleSignInAccount>?, onSuccess: (Boolean) -> Unit) {
         viewModelScope.launch {
             authenticationRepository.signInWithGoogle(task) { id ->
                 _id.value = id
                 saveLoginState(id)
+
+                onSuccess(true)
             }
         }
     }

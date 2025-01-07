@@ -27,6 +27,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppNavHost()
 
+
+            /**
             LaunchedEffect(key1 = Unit) {
                 signInViewModel.id.collectLatest { id ->
                     if (id != "") {
@@ -34,6 +36,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+            **/
         }
     }
 

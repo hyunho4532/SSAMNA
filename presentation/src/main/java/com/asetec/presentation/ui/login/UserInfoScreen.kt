@@ -13,6 +13,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -22,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asetec.presentation.component.RadioRow
 import com.asetec.presentation.viewmodel.SignInViewModel
 
 @Composable
@@ -41,13 +44,9 @@ fun UserInfoScreen(
 
     val yesORNo = listOf("네", "아니요")
 
-    val (selectedOption, onOptionSelected) = remember {
-        mutableStateOf(yesORNo[0])
-    }
-
     val age = viewModel.age.collectAsState(initial = 0f)
 
-    var recentExercise by remember { mutableStateOf("") }
+    var recentExercise by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -100,9 +99,9 @@ fun UserInfoScreen(
                     viewModel.saveAge(it)
                 },
                 colors = SliderDefaults.colors(
-                    thumbColor = MaterialTheme.colorScheme.secondary,
-                    activeTrackColor = MaterialTheme.colorScheme.secondary,
-                    inactiveTrackColor = MaterialTheme.colorScheme.secondaryContainer
+                    thumbColor = Color(0xFF42B4F5),
+                    activeTrackColor = Color(0xFF156ffa),
+                    inactiveTrackColor = Color(0xFF5898fa)
                 ),
                 steps = 99,
                 valueRange = 0f..100f
@@ -123,25 +122,33 @@ fun UserInfoScreen(
                 )
             }
 
-            Row {
-                yesORNo.forEach { text ->
-                    Row (
-                        modifier = Modifier
-                            .width(120.dp)
-                            .padding(top = 24.dp)
-                    ) {
-                        RadioButton(
-                            selected = ( text == selectedOption ),
-                            onClick = {  },
-                        )
+            RadioRow(yesORNo = yesORNo)
+        }
 
-                        Text(
-                            text = text,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(top = 12.dp)
-                        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(140.dp)
+                .padding(top = 24.dp)
+        ) {
+            Text(
+                text = "2-1. 최근 운동을 진행하셨다면 어떤 운동을 하셨나요?",
+                modifier = Modifier.padding(start = 16.dp),
+                fontWeight = FontWeight.Bold
+            )
+
+            Box(
+                modifier = Modifier.padding(top = 36.dp, start = 16.dp)
+            ) {
+                OutlinedTextField(
+                    modifier = Modifier
+                        .width(240.dp)
+                        .height(48.dp),
+                    value = recentExercise,
+                    onValueChange = {
+                        recentExercise = it
                     }
-                }
+                )
             }
         }
 
@@ -152,21 +159,27 @@ fun UserInfoScreen(
                 .padding(top = 24.dp)
         ) {
             Text(
-                text = "2-1. 최근 운동을 진행하셨다면 어떤 운동을 하셨나요?",
+                text = "3. 하루에 꾸준히 걷기 또는 달리기를 하시나요?",
                 modifier = Modifier.padding(start = 16.dp),
                 fontWeight = FontWeight.Bold
             )
 
-            OutlinedTextField(
-                modifier = Modifier
-                    .width(240.dp)
-                    .height(24.dp)
-                    .padding(top = 32.dp, start = 16.dp),
-                value = recentExercise,
-                onValueChange = {
-                    recentExercise = it
-                }
+            RadioRow(yesORNo = yesORNo)
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(120.dp)
+                .padding(top = 24.dp)
+        ) {
+            Text(
+                text = "4. 운동 중 목표 기간이 있습니까?",
+                modifier = Modifier.padding(start = 16.dp),
+                fontWeight = FontWeight.Bold
             )
+
+            RadioRow(yesORNo = yesORNo)
         }
     }
 }

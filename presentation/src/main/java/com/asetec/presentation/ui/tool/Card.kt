@@ -63,3 +63,38 @@ fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {
         }
     }
 }
+
+@Composable
+fun ReportCard(width: Dp, height: Dp, text: String) {
+    Card (
+        modifier = Modifier
+            .width(width)
+            .height(height)
+            .shadow(
+                elevation = 3.dp
+            ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            contentAlignment = Alignment.Center
+        ) {
+            Row (
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Text(
+                    text = text,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Gray,
+                    modifier = Modifier
+                        .padding(start = 6.dp)
+                        .align(Alignment.CenterVertically)
+                )
+            }
+        }
+    }
+}

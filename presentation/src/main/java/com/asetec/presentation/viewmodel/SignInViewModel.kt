@@ -25,29 +25,6 @@ class SignInViewModel @Inject constructor(
     private val _id = MutableStateFlow(getSavedLoginState())
     val id: Flow<String> = _id
 
-    /** 나이 **/
-    private val _age = MutableStateFlow(0f)
-    val age: Flow<Float> = _age
-
-    /** 이메일 **/
-    private val _email = MutableStateFlow("")
-    val email: Flow<String> = _email
-
-    /** 이름 (별칭) **/
-    private val _name = MutableStateFlow("")
-    val name: Flow<String> = _name
-
-    /** 최근 운동 이름 **/
-    private val _recentExercise = MutableStateFlow("")
-    val recentExercise: Flow<String> = _recentExercise
-
-    /**
-     * NumberPicker에서 값이 변경될 때마다, 나이를 저장한다.
-     */
-    fun saveAge(age: Float) {
-        _age.value = age
-    }
-
     /**
      * SP에 담은 id 값을 가져온다.
      */

@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    kotlin("plugin.serialization")
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
@@ -68,6 +69,7 @@ dependencies {
     implementation("androidx.browser:browser:1.5.0")
     implementation("com.airbnb.android:lottie-compose:6.6.2")
     implementation("androidx.navigation:navigation-compose:2.6.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

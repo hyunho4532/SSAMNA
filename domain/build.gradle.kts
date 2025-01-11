@@ -1,6 +1,7 @@
 plugins {
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    kotlin("plugin.serialization")
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
@@ -35,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")

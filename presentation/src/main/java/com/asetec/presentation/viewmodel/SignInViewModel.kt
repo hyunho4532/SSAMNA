@@ -1,8 +1,10 @@
 package com.asetec.presentation.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.asetec.domain.dto.user.AuthState
 import com.asetec.domain.usecase.user.LoginCase
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
@@ -10,6 +12,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,9 +25,11 @@ class SignInViewModel @Inject constructor(
 
     private val sharedPreferences = appContext.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-    /** 아이디 **/
-    private val _id = MutableStateFlow(getSavedLoginState())
-    val id: Flow<String> = _id
+    private val _authState = MutableStateFlow(AuthState(
+        id = getSavedLoginState()
+    ))
+
+    val authState: StateFlow<AuthState> = _authState
 
     /**
      * SP에 담은 id 값을 가져온다.
@@ -41,9 +47,17 @@ class SignInViewModel @Inject constructor(
 
     fun onGoogleSignIn(task: Task<GoogleSignInAccount>?, onSuccess: (Boolean) -> Unit) {
         viewModelScope.launch {
-            loginCase.invoke(task) { id ->
-                _id.value = id
+            loginCase.invoke(task) { id, email, name ->
                 saveLoginState(id)
+
+                _authState.update {
+                    it.copy(
+                        id = id,
+                        email = email,
+                        name = name
+                    )
+                }
+
 
                 onSuccess(true)
             }

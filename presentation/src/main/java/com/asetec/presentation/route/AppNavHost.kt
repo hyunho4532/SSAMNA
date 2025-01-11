@@ -1,11 +1,13 @@
 package com.asetec.presentation.route
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.asetec.domain.dto.user.AuthState
 import com.asetec.domain.dto.user.UserState
 import com.asetec.presentation.ui.login.LoginScreen
 import com.asetec.presentation.ui.login.ReportScreen
@@ -28,8 +30,20 @@ fun AppNavHost() {
         composable("login") {
             LoginScreen(navController = navController)
         }
-        composable("userInfo") {
-            UserInfoScreen(navController = navController)
+
+        composable(
+            route = "userInfo?authState={authState}",
+            arguments = listOf(navArgument("authState") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            val authStateJson = backStackEntry.arguments?.getString("authState")
+            val authState = Json.decodeFromString<AuthState>(authStateJson!!)
+
+            UserInfoScreen(
+                navController = navController,
+                authState = authState
+            )
         }
 
         composable(

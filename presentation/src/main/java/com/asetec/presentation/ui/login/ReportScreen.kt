@@ -30,6 +30,8 @@ import com.asetec.presentation.viewmodel.UserViewModel
 @Composable
 fun ReportScreen(userState: UserState) {
 
+    Log.d("ReportScreen", userState.age.toString())
+
     Column(
         modifier = Modifier
             .fillMaxSize()

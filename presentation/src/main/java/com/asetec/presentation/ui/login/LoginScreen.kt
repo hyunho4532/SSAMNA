@@ -1,5 +1,7 @@
 package com.asetec.presentation.ui.login
 
+import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +27,8 @@ import com.asetec.presentation.api.GoogleApiContract
 import com.asetec.presentation.ui.tool.CustomCard
 import com.asetec.presentation.ui.tool.Spacer
 import com.asetec.presentation.viewmodel.SignInViewModel
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Composable
 fun LoginScreen(
@@ -31,16 +36,16 @@ fun LoginScreen(
     navController: NavController
 ) {
 
+    val authState = viewModel.authState.collectAsState()
+
     val authResultLauncher = rememberLauncherForActivityResult (
         contract = GoogleApiContract()
     ) { task ->
         viewModel.onGoogleSignIn(task) { onSuccess ->
             if (onSuccess) {
-                navController.navigate("userInfo") {
-                    popUpTo("login") {
-                        inclusive = true
-                    }
-                }
+                val authStateJson = Uri.encode(Json.encodeToString(authState.value))
+
+                navController.navigate("userInfo?authState=${authStateJson}")
             }
         }
     }

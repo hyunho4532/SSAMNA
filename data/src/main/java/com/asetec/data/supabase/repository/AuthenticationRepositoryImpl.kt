@@ -19,19 +19,19 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
     override fun signInWithGoogle(
         task: Task<GoogleSignInAccount>?,
-        onSuccess: (id: String) -> Unit
+        onSuccess: (id: String, email: String, name: String) -> Unit
     ): Boolean {
 
         val account = task?.getResult(ApiException::class.java)
 
         try {
             account?.let { signInAccount ->
-                onSuccess(signInAccount.id.toString())
+                onSuccess(signInAccount.id.toString(), signInAccount.email.toString(), signInAccount.displayName.toString())
             } ?: run {
-                onSuccess("")
+                onSuccess("", "", "")
             }
         } catch (e: ApiException) {
-            onSuccess("")
+            onSuccess("", "", "")
         }
 
         return true

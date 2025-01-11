@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.asetec.domain.dto.user.AuthState
 import com.asetec.presentation.component.RadioRow
 import com.asetec.presentation.ui.tool.Spacer
 import com.asetec.presentation.viewmodel.SignInViewModel
@@ -43,6 +44,7 @@ import kotlinx.serialization.json.Json
 @Composable
 fun UserInfoScreen(
     navController: NavController,
+    authState: AuthState,
     userViewModel: UserViewModel = hiltViewModel()
 ) {
 

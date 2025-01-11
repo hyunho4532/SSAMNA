@@ -10,6 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
@@ -25,28 +31,35 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.asetec.presentation.component.RadioRow
+import com.asetec.presentation.ui.tool.Spacer
 import com.asetec.presentation.viewmodel.SignInViewModel
 
 @Composable
-@Preview
 fun UserInfoScreen(
-    viewModel: SignInViewModel = hiltViewModel()
+    viewModel: SignInViewModel = hiltViewModel() ,
+    navController: NavController
 ) {
 
     val yesORNo = listOf("네", "아니요")
 
     val age = viewModel.age.collectAsState(initial = 0f)
 
-    var recentExercise by rememberSaveable { mutableStateOf("") }
+    var recentExercise by rememberSaveable {
+        mutableStateOf("")
+    }
 
     Column(
         modifier = Modifier
@@ -128,7 +141,7 @@ fun UserInfoScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(140.dp)
+                .height(130.dp)
                 .padding(top = 24.dp)
         ) {
             Text(
@@ -155,7 +168,7 @@ fun UserInfoScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp)
+                .height(110.dp)
                 .padding(top = 24.dp)
         ) {
             Text(
@@ -180,6 +193,24 @@ fun UserInfoScreen(
             )
 
             RadioRow(yesORNo = yesORNo)
+        }
+        
+        Button(
+            onClick = {
+                navController.navigate("report") {
+                    popUpTo("userInfo") {
+                        inclusive = false
+                    }
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth(),
+            shape = RectangleShape,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF5c9afa)
+            )
+        ) {
+            Text(text = "정보 작성 완료!")
         }
     }
 }

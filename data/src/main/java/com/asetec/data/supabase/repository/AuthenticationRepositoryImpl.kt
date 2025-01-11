@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.asetec.domain.repository.user.AuthenticationRepository
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
@@ -15,13 +16,15 @@ import javax.inject.Inject
 class AuthenticationRepositoryImpl @Inject constructor(
     private val auth: Auth
 ) : AuthenticationRepository {
+
     override fun signInWithGoogle(
         task: Task<GoogleSignInAccount>?,
         onSuccess: (id: String) -> Unit
     ): Boolean {
-        try {
-            val account = task?.getResult(ApiException::class.java)
 
+        val account = task?.getResult(ApiException::class.java)
+
+        try {
             account?.let { signInAccount ->
                 onSuccess(signInAccount.id.toString())
             } ?: run {

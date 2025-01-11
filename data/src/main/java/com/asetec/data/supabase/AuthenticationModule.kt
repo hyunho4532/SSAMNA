@@ -1,7 +1,7 @@
 package com.asetec.data.supabase
 
-import com.asetec.data.supabase.repository.AuthenticationRepository
 import com.asetec.data.supabase.repository.AuthenticationRepositoryImpl
+import com.asetec.domain.repository.user.AuthenticationRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

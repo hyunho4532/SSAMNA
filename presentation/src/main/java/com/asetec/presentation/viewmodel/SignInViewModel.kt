@@ -1,27 +1,21 @@
 package com.asetec.presentation.viewmodel
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.asetec.data.supabase.repository.AuthenticationRepository
-import com.asetec.presentation.ui.login.UserInfoScreen
+import com.asetec.domain.usecase.user.LoginCase
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.SignInAccount
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val authenticationRepository: AuthenticationRepository,
+    private val loginCase: LoginCase,
     @ApplicationContext private val appContext: Context
 ) : ViewModel() {
 
@@ -70,7 +64,7 @@ class SignInViewModel @Inject constructor(
 
     fun onGoogleSignIn(task: Task<GoogleSignInAccount>?, onSuccess: (Boolean) -> Unit) {
         viewModelScope.launch {
-            authenticationRepository.signInWithGoogle(task) { id ->
+            loginCase.invoke(task) { id ->
                 _id.value = id
                 saveLoginState(id)
 

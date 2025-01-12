@@ -18,25 +18,18 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.asetec.domain.dto.user.AuthState
 import com.asetec.presentation.component.RadioRow
-import com.asetec.presentation.ui.tool.Spacer
-import com.asetec.presentation.viewmodel.SignInViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -50,10 +43,12 @@ fun UserInfoScreen(
 
     val yesORNo = listOf("네", "아니요")
 
-    val userState = userViewModel.userState.collectAsState()
+    val userState = userViewModel.authState.collectAsState()
 
-    var recentExercise by rememberSaveable {
-        mutableStateOf("")
+    LaunchedEffect(authState) {
+        if (authState.email.isNotEmpty()) {
+            userViewModel.mergeAuthStateIntoUserState(authState = authState)
+        }
     }
 
     Column(
@@ -152,9 +147,9 @@ fun UserInfoScreen(
                     modifier = Modifier
                         .width(240.dp)
                         .height(48.dp),
-                    value = recentExercise,
+                    value = userState.value.recentExerciseName ?: "",
                     onValueChange = {
-                        recentExercise = it
+                        userViewModel.saveExerciseName(it)
                     }
                 )
             }
@@ -193,9 +188,7 @@ fun UserInfoScreen(
         Button(
             onClick = {
                 val userStateJson = Uri.encode(Json.encodeToString(userState.value))
-                val authStateJson = Uri.encode(Json.encodeToString(authState))
-
-                navController.navigate("report?userState=${userStateJson}&authState=${authStateJson}")
+                navController.navigate("report?userState=${userStateJson}")
             },
             modifier = Modifier
                 .fillMaxWidth(),

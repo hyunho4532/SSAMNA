@@ -1,6 +1,5 @@
 package com.asetec.presentation.ui.login
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,14 +16,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.asetec.domain.dto.user.AuthState
-import com.asetec.domain.dto.user.UserState
 import com.asetec.presentation.ui.tool.ReportCard
 
 /** 정보 수집 후 사용자에 관한 최종 정보 **/
 @Composable
 fun ReportScreen(
-    userState: UserState,
-    authState: AuthState
+    userState: AuthState
 ) {
     Column(
         modifier = Modifier
@@ -57,8 +54,7 @@ fun ReportScreen(
             ReportCard(
                 width = 360.dp,
                 height = 540.dp,
-                userState = userState,
-                authState = authState
+                userState = userState
             )
         }
     }

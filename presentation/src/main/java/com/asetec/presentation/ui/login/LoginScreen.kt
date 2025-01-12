@@ -1,8 +1,6 @@
 package com.asetec.presentation.ui.login
 
 import android.net.Uri
-import android.util.Base64
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,13 +27,13 @@ import com.asetec.presentation.R
 import com.asetec.presentation.api.GoogleApiContract
 import com.asetec.presentation.ui.tool.CustomCard
 import com.asetec.presentation.ui.tool.Spacer
-import com.asetec.presentation.viewmodel.SignInViewModel
+import com.asetec.presentation.viewmodel.UserViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @Composable
 fun LoginScreen(
-    viewModel: SignInViewModel = hiltViewModel(),
+    viewModel: UserViewModel = hiltViewModel(),
     navController: NavController
 ) {
 

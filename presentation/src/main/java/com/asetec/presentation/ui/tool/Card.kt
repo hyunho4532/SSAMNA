@@ -1,6 +1,5 @@
 package com.asetec.presentation.ui.tool
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -28,12 +27,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.asetec.domain.dto.user.AuthState
-import com.asetec.domain.dto.user.UserState
 import com.asetec.presentation.R
 
 @Composable
@@ -80,9 +77,9 @@ fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {
 fun ReportCard(
     width: Dp,
     height: Dp,
-    userState: UserState,
-    authState: AuthState
+    userState: AuthState
 ) {
+
     Card (
         modifier = Modifier
             .width(width)
@@ -113,10 +110,30 @@ fun ReportCard(
             }
 
             Text(
-                text = authState.email,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                text = "${userState.name} : ${userState.age.toInt()}",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 6.dp)
             )
+
+            Text(
+                text = userState.email,
+                fontSize = 16.sp,
+            )
+
+            Spacer(width = 0.dp, height = 80.dp)
+
+            Column (
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = "최근 진행한 운동: ${userState.recentExerciseName.toString()}",
+                    modifier = Modifier.padding(start = 16.dp),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+            }
         }
     }
 }

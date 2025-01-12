@@ -1,5 +1,6 @@
 package com.asetec.presentation.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -14,15 +15,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.asetec.presentation.viewmodel.UserViewModel
 
 @Composable
 fun RadioRow(
-    yesORNo: List<String>
+    yesORNo: List<String>,
+    id: Number,
+    selectedOption: String,
+    onOptionSelected: (String) -> Unit,
+    userViewModel: UserViewModel = hiltViewModel()
 ) {
-
-    val (selectedOption, onOptionSelected) = remember {
-        mutableStateOf(yesORNo[0])
-    }
 
     Row {
         yesORNo.forEach { text ->
@@ -34,6 +37,7 @@ fun RadioRow(
                         selected = (text == selectedOption),
                         onClick = {
                             onOptionSelected(text)
+                            userViewModel.saveChecks(id, text)
                         }
                     )
             ) {

@@ -12,8 +12,8 @@ data class AuthState(
     val name: String = "",
 
     val age: Float = 0f,
-    val recentExerciseCheck: Boolean? = null,
     val recentExerciseName: String? = null,
-    val recentWorkingJog: Boolean? = null,
-    val targetPeriod: Boolean? = null
+    val recentExerciseCheck: String = "네",
+    val recentWorkingJog: String = "네",
+    val targetPeriod: String = "네"
 )

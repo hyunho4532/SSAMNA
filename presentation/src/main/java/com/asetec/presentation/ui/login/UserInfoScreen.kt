@@ -11,8 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -20,6 +23,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -45,15 +51,36 @@ fun UserInfoScreen(
 
     val userState = userViewModel.authState.collectAsState()
 
+    var enableTextField = remember {
+        mutableStateOf(true)
+    }
+
+    val (selectedOption, setSelectedOption) = remember {
+        mutableStateOf(yesORNo[0])
+    }
+
+    val (selectedOption1, setSelectedOption1) = remember {
+        mutableStateOf(yesORNo[0])
+    }
+
+    val (selectedOption2, setSelectedOption2) = remember {
+        mutableStateOf(yesORNo[0])
+    }
+
     LaunchedEffect(authState) {
         if (authState.email.isNotEmpty()) {
             userViewModel.mergeAuthStateIntoUserState(authState = authState)
         }
     }
 
+    LaunchedEffect(userState.value) {
+        enableTextField.value = userState.value.recentExerciseCheck == "네"
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(Color.White)
     ) {
         Box (
@@ -125,7 +152,12 @@ fun UserInfoScreen(
                 )
             }
 
-            RadioRow(yesORNo = yesORNo)
+            RadioRow(
+                yesORNo = yesORNo,
+                id = 0,
+                selectedOption = selectedOption,
+                onOptionSelected = setSelectedOption
+            )
         }
 
         Box(
@@ -146,10 +178,17 @@ fun UserInfoScreen(
                 OutlinedTextField(
                     modifier = Modifier
                         .width(240.dp)
-                        .height(48.dp),
+                        .height(56.dp),
                     value = userState.value.recentExerciseName ?: "",
                     onValueChange = {
                         userViewModel.saveExerciseName(it)
+                    },
+                    enabled = enableTextField.value,
+                    placeholder = {
+                        Text (
+                            text = "ex) 스쿼트, 팔굽혀펴기",
+                            color = Color.Gray
+                        )
                     }
                 )
             }
@@ -159,7 +198,7 @@ fun UserInfoScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(110.dp)
-                .padding(top = 24.dp)
+                .padding(top = 32.dp)
         ) {
             Text(
                 text = "3. 하루에 꾸준히 걷기 또는 달리기를 하시나요?",
@@ -167,14 +206,62 @@ fun UserInfoScreen(
                 fontWeight = FontWeight.Bold
             )
 
-            RadioRow(yesORNo = yesORNo)
+            RadioRow(
+                yesORNo = yesORNo,
+                id = 1,
+                selectedOption = selectedOption1,
+                onOptionSelected = setSelectedOption1
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(110.dp)
+                .padding(top = 24.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .height(48.dp)
+            ) {
+                Text(
+                    text = "3-1. 조깅이나 걷기를 주 몇 번 하시나요? 몇 분 정도 하시나요?",
+                    modifier = Modifier.padding(start = 16.dp),
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            Box(
+                modifier = Modifier.padding(top = 32.dp, start = 16.dp)
+            ) {
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Text(
+                        text = "주: ",
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(48.dp),
+                        value = userState.value.recentExerciseName ?: "",
+                        onValueChange = {
+                            userViewModel.saveExerciseName(it)
+                        },
+                        enabled = enableTextField.value
+                    )
+                }
+            }
         }
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(120.dp)
-                .padding(top = 24.dp)
+                .padding(top = 46.dp)
         ) {
             Text(
                 text = "4. 운동 중 목표 기간이 있습니까?",
@@ -182,7 +269,12 @@ fun UserInfoScreen(
                 fontWeight = FontWeight.Bold
             )
 
-            RadioRow(yesORNo = yesORNo)
+            RadioRow(
+                yesORNo = yesORNo,
+                id = 2,
+                selectedOption = selectedOption2,
+                onOptionSelected = setSelectedOption2
+            )
         }
         
         Button(

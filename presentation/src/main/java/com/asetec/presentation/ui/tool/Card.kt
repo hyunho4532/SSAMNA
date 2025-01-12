@@ -124,15 +124,38 @@ fun ReportCard(
             Spacer(width = 0.dp, height = 80.dp)
 
             Column (
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp),
                 horizontalAlignment = Alignment.Start
             ) {
-                Text(
-                    text = "최근 진행한 운동: ${userState.recentExerciseName.toString()}",
-                    modifier = Modifier.padding(start = 16.dp),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
-                )
+                Box(
+                    modifier = Modifier
+                        .height(80.dp)
+                ) {
+                    Text(
+                        text = "최근 운동을 진행한 적이 있으신가요? ${userState.recentExerciseCheck}",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+
+                    Text(
+                        text = "최근 진행하고 있는 운동: ${userState.recentExerciseName}",
+                        fontSize = 14.sp,
+                        modifier = Modifier.padding(top = 24.dp)
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .height(140.dp)
+                ) {
+                    Text(
+                        text = "하루에 걷기 또는 달리기를 하시나요? ${userState.recentWorkingJog}",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                }
             }
         }
     }

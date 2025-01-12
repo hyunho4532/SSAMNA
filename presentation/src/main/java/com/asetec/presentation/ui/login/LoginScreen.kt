@@ -1,6 +1,7 @@
 package com.asetec.presentation.ui.login
 
 import android.net.Uri
+import android.util.Base64
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
@@ -13,7 +14,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,17 +39,18 @@ fun LoginScreen(
     navController: NavController
 ) {
 
-    val authState = viewModel.authState.collectAsState()
+    val authState by viewModel.authState.collectAsState()
 
     val authResultLauncher = rememberLauncherForActivityResult (
         contract = GoogleApiContract()
     ) { task ->
-        viewModel.onGoogleSignIn(task) { onSuccess ->
-            if (onSuccess) {
-                val authStateJson = Uri.encode(Json.encodeToString(authState.value))
-
-                navController.navigate("userInfo?authState=${authStateJson}")
-            }
+        viewModel.onGoogleSignIn(task)
+    }
+    
+    LaunchedEffect(key1 = authState.email) {
+        if (authState.email.isNotEmpty()) {
+            val authStateJson = Uri.encode(Json.encodeToString(authState))
+            navController.navigate("userInfo?authState=${authStateJson}")
         }
     }
 

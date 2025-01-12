@@ -193,7 +193,9 @@ fun UserInfoScreen(
         Button(
             onClick = {
                 val userStateJson = Uri.encode(Json.encodeToString(userState.value))
-                navController.navigate("report?userState=${userStateJson}")
+                val authStateJson = Uri.encode(Json.encodeToString(authState))
+
+                navController.navigate("report?userState=${userStateJson}&authState=${authStateJson}")
             },
             modifier = Modifier
                 .fillMaxWidth(),

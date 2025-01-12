@@ -1,5 +1,6 @@
 package com.asetec.presentation.ui.tool
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.asetec.domain.dto.user.AuthState
+import com.asetec.domain.dto.user.UserState
 import com.asetec.presentation.R
 
 @Composable
@@ -73,7 +77,12 @@ fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {
 }
 
 @Composable
-fun ReportCard(width: Dp, height: Dp, text: String) {
+fun ReportCard(
+    width: Dp,
+    height: Dp,
+    userState: UserState,
+    authState: AuthState
+) {
     Card (
         modifier = Modifier
             .width(width)
@@ -102,6 +111,12 @@ fun ReportCard(width: Dp, height: Dp, text: String) {
                         .border(2.dp, Color.Gray, CircleShape)
                 )
             }
+
+            Text(
+                text = authState.email,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }

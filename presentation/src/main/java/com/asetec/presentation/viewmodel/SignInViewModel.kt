@@ -45,7 +45,7 @@ class SignInViewModel @Inject constructor(
         sharedPreferences.edit().putString("id", id).apply()
     }
 
-    fun onGoogleSignIn(task: Task<GoogleSignInAccount>?, onSuccess: (Boolean) -> Unit) {
+    fun onGoogleSignIn(task: Task<GoogleSignInAccount>?) {
         viewModelScope.launch {
             loginCase.invoke(task) { id, email, name ->
                 saveLoginState(id)
@@ -57,9 +57,6 @@ class SignInViewModel @Inject constructor(
                         name = name
                     )
                 }
-
-
-                onSuccess(true)
             }
         }
     }

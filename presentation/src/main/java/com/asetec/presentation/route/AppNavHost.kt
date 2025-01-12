@@ -40,6 +40,8 @@ fun AppNavHost() {
             val authStateJson = backStackEntry.arguments?.getString("authState")
             val authState = Json.decodeFromString<AuthState>(authStateJson!!)
 
+            Log.d("AppNavHost", authState.email)
+
             UserInfoScreen(
                 navController = navController,
                 authState = authState
@@ -47,14 +49,23 @@ fun AppNavHost() {
         }
 
         composable(
-            route = "report?userState={userState}",
-            arguments = listOf(navArgument("userState") {
-                type = NavType.StringType
-            })
+            route = "report?userState={userState}&authState={authState}",
+            arguments = listOf(
+                navArgument("userState") {
+                    type = NavType.StringType
+                },
+                navArgument("authState") {
+                    type = NavType.StringType
+                }
+            )
         ) { backStackEntry ->
             val userStateJson = backStackEntry.arguments?.getString("userState")
+            val authStateJson = backStackEntry.arguments?.getString("authState")
+
             val userState = Json.decodeFromString<UserState>(userStateJson!!)
-            ReportScreen(userState)
+            val authState = Json.decodeFromString<AuthState>(authStateJson!!)
+
+            ReportScreen(userState, authState)
         }
     }
 }

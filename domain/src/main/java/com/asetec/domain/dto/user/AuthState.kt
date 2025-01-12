@@ -12,8 +12,12 @@ data class AuthState(
     val name: String = "",
 
     val age: Float = 0f,
-    val recentExerciseName: String? = null,
     val recentExerciseCheck: String = "네",
-    val recentWorkingJog: String = "네",
+    val recentExerciseName: String? = null,
+
+    val recentWalkingCheck: String = "네",
+    val recentWalkingOfWeek: String = "",
+    val recentWalkingOfTime: String = "",
+
     val targetPeriod: String = "네"
 )

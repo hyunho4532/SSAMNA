@@ -29,13 +29,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.asetec.domain.dto.user.AuthState
+import com.asetec.presentation.R
 import com.asetec.presentation.component.RadioRow
+import com.asetec.presentation.ui.tool.Spacer
 import com.asetec.presentation.viewmodel.UserViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -51,7 +54,11 @@ fun UserInfoScreen(
 
     val userState = userViewModel.authState.collectAsState()
 
-    var enableTextField = remember {
+    val enableExerciseTextField = remember {
+        mutableStateOf(true)
+    }
+
+    val enableWalkingTextField = remember {
         mutableStateOf(true)
     }
 
@@ -74,7 +81,8 @@ fun UserInfoScreen(
     }
 
     LaunchedEffect(userState.value) {
-        enableTextField.value = userState.value.recentExerciseCheck == "네"
+        enableExerciseTextField.value = userState.value.recentExerciseCheck == "네"
+        enableWalkingTextField.value = userState.value.recentWalkingCheck == "네"
     }
 
     Column(
@@ -183,10 +191,10 @@ fun UserInfoScreen(
                     onValueChange = {
                         userViewModel.saveExerciseName(it)
                     },
-                    enabled = enableTextField.value,
+                    enabled = enableExerciseTextField.value,
                     placeholder = {
                         Text (
-                            text = "ex) 스쿼트, 팔굽혀펴기",
+                            text = stringResource(id = R.string.hint_recent_exercise),
                             color = Color.Gray
                         )
                     }
@@ -245,13 +253,43 @@ fun UserInfoScreen(
 
                     OutlinedTextField(
                         modifier = Modifier
-                            .width(40.dp)
-                            .height(48.dp),
-                        value = userState.value.recentExerciseName ?: "",
+                            .width(44.dp)
+                            .height(56.dp),
+                        value = userState.value.recentWalkingOfWeek,
                         onValueChange = {
-                            userViewModel.saveExerciseName(it)
+                            userViewModel.saveWalkingOfWeek(it)
                         },
-                        enabled = enableTextField.value
+                        enabled = enableWalkingTextField.value,
+                        placeholder = {
+                            Text (
+                                text = stringResource(id = R.string.hint_exercise_week),
+                                color = Color.Gray
+                            )
+                        }
+                    )
+
+                    Spacer(width = 80.dp, height = 0.dp)
+
+                    Text(
+                        text = "시간: ",
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .width(120.dp)
+                            .height(56.dp),
+                        value = userState.value.recentWalkingOfTime,
+                        onValueChange = {
+                            userViewModel.saveWalkingOfTime(it)
+                        },
+                        enabled = enableWalkingTextField.value,
+                        placeholder = {
+                            Text (
+                                text = stringResource(id = R.string.hint_exercise_time),
+                                color = Color.Gray
+                            )
+                        }
                     )
                 }
             }

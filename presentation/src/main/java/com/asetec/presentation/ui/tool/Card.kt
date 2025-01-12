@@ -110,7 +110,7 @@ fun ReportCard(
             }
 
             Text(
-                text = "${userState.name} : ${userState.age.toInt()}",
+                text = "${userState.name} : ${userState.age.toInt()}살",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 6.dp)
@@ -148,10 +148,27 @@ fun ReportCard(
 
                 Box(
                     modifier = Modifier
-                        .height(140.dp)
+                        .height(80.dp)
                 ) {
                     Text(
-                        text = "하루에 걷기 또는 달리기를 하시나요? ${userState.recentWorkingJog}",
+                        text = "하루에 걷기 또는 달리기를 하시나요? ${userState.recentWalkingCheck}",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+
+                    Text(
+                        text = "주: ${userState.recentWalkingOfWeek}회 ${userState.recentWalkingOfTime}분씩 진행!",
+                        fontSize = 14.sp,
+                        modifier = Modifier.padding(top = 24.dp)
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .height(80.dp)
+                ) {
+                    Text(
+                        text = "운동 중 목표 기간이 있습니까? ${userState.targetPeriod}",
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     )

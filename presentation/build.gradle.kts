@@ -52,6 +52,7 @@ android {
 }
 
 dependencies {
+    implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("io.github.jan-tennert.supabase:compose-auth:2.4.2")
     implementation("io.github.jan-tennert.supabase:gotrue-kt:2.4.2")
     implementation("androidx.credentials:credentials:1.2.2")

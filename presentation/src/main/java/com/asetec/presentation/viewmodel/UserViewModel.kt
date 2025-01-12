@@ -88,11 +88,23 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    fun saveWalkingOfWeek(week: String) {
+        _authState.update {
+            it.copy(recentWalkingOfWeek = week)
+        }
+    }
+
+    fun saveWalkingOfTime(time: String) {
+        _authState.update {
+            it.copy(recentWalkingOfTime = time)
+        }
+    }
+
     fun saveChecks(id: Number, text: String) {
         _authState.update {
             when (id) {
                 0 -> it.copy(recentExerciseCheck = text)
-                1 -> it.copy(recentWorkingJog = text)
+                1 -> it.copy(recentWalkingCheck = text)
                 2 -> it.copy(targetPeriod = text)
                 else -> throw Exception("에러")
             }

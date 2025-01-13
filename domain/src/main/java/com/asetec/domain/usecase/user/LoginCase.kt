@@ -1,5 +1,6 @@
 package com.asetec.domain.usecase.user
 
+import com.asetec.domain.dto.user.User
 import com.asetec.domain.repository.user.AuthenticationRepository
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
@@ -14,5 +15,9 @@ class LoginCase @Inject constructor(
         }
 
         return authenticationRepository
+    }
+
+    suspend fun saveUser(user: User) {
+        authenticationRepository.saveUser(user)
     }
 }

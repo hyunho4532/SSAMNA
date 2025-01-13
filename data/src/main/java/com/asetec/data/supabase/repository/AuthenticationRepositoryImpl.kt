@@ -1,20 +1,16 @@
 package com.asetec.data.supabase.repository
 
-import android.content.Context
-import android.content.Intent
-import android.util.Log
-import android.widget.Toast
+import com.asetec.domain.dto.user.User
+import com.asetec.domain.dto.user.UserDTO
 import com.asetec.domain.repository.user.AuthenticationRepository
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import io.github.jan.supabase.gotrue.Auth
-import io.github.jan.supabase.gotrue.providers.Google
-import io.github.jan.supabase.gotrue.providers.builtin.IDToken
+import io.github.jan.supabase.postgrest.Postgrest
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
-    private val auth: Auth
+    private val postgrest: Postgrest
 ) : AuthenticationRepository {
 
     override fun signInWithGoogle(
@@ -35,5 +31,15 @@ class AuthenticationRepositoryImpl @Inject constructor(
         }
 
         return true
+    }
+
+    override suspend fun saveUser(user: User) {
+        val userDTO = UserDTO(
+            googleId = user.id,
+            email = user.email,
+            name = user.name,
+        )
+
+        postgrest.from("User").insert(userDTO)
     }
 }

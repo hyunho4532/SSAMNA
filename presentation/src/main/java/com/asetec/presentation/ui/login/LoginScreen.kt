@@ -37,7 +37,7 @@ fun LoginScreen(
     navController: NavController
 ) {
 
-    val authState by viewModel.authState.collectAsState()
+    val authState by viewModel.user.collectAsState()
 
     val authResultLauncher = rememberLauncherForActivityResult (
         contract = GoogleApiContract()

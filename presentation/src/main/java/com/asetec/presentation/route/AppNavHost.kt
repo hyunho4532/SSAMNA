@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.asetec.domain.dto.user.AuthState
+import com.asetec.domain.dto.user.User
 import com.asetec.presentation.ui.login.LoginScreen
 import com.asetec.presentation.ui.login.ReportScreen
 import com.asetec.presentation.ui.login.UserInfoScreen
@@ -36,11 +36,11 @@ fun AppNavHost() {
             })
         ) { backStackEntry ->
             val authStateJson = backStackEntry.arguments?.getString("authState")
-            val authState = Json.decodeFromString<AuthState>(authStateJson!!)
+            val user = Json.decodeFromString<User>(authStateJson!!)
 
             UserInfoScreen(
                 navController = navController,
-                authState = authState
+                user = user
             )
         }
 
@@ -53,7 +53,7 @@ fun AppNavHost() {
             )
         ) { backStackEntry ->
             val userStateJson = backStackEntry.arguments?.getString("userState")
-            val userState = Json.decodeFromString<AuthState>(userStateJson!!)
+            val userState = Json.decodeFromString<User>(userStateJson!!)
 
             ReportScreen(userState)
         }

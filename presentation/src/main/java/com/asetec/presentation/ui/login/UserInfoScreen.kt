@@ -1,7 +1,6 @@
 package com.asetec.presentation.ui.login
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -35,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.asetec.domain.dto.user.AuthState
+import com.asetec.domain.dto.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.RadioRow
 import com.asetec.presentation.ui.tool.Spacer
@@ -46,13 +44,13 @@ import kotlinx.serialization.json.Json
 @Composable
 fun UserInfoScreen(
     navController: NavController,
-    authState: AuthState,
+    user: User,
     userViewModel: UserViewModel = hiltViewModel()
 ) {
 
     val yesORNo = listOf("네", "아니요")
 
-    val userState = userViewModel.authState.collectAsState()
+    val userState = userViewModel.user.collectAsState()
 
     val enableExerciseTextField = remember {
         mutableStateOf(true)
@@ -74,9 +72,9 @@ fun UserInfoScreen(
         mutableStateOf(yesORNo[0])
     }
 
-    LaunchedEffect(authState) {
-        if (authState.email.isNotEmpty()) {
-            userViewModel.mergeAuthStateIntoUserState(authState = authState)
+    LaunchedEffect(user) {
+        if (user.email.isNotEmpty()) {
+            userViewModel.mergeAuthStateIntoUserState(user = user)
         }
     }
 

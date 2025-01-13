@@ -3,9 +3,7 @@ package com.asetec.presentation.ui.tool
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -41,8 +39,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.asetec.domain.dto.user.AuthState
-import com.asetec.presentation.R
+import com.asetec.domain.dto.user.User
 
 @Composable
 fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {
@@ -88,7 +85,7 @@ fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {
 fun ReportCard(
     width: Dp,
     height: Dp,
-    userState: AuthState
+    userState: User
 ) {
 
     var selectedImageUri by remember {

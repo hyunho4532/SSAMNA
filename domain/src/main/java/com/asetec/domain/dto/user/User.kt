@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
  * 사용자에 대한 정보를 담는 데이터 클래스
  */
 @Serializable
-data class AuthState(
+data class User(
     val id: String = "",
     val email: String = "",
     val name: String = "",

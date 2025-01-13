@@ -10,4 +10,7 @@
     <string name="hint_exercise_week">3</string>
 
     <string name="hint_exercise_time">120: 2시간</string>
+    
+    <string name="nav_home">홈</string>
+    <string name="nav_profile">프로필</string>
 </resources>

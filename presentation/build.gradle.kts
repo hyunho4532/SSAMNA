@@ -69,7 +69,8 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("androidx.browser:browser:1.5.0")
     implementation("com.airbnb.android:lottie-compose:6.6.2")
-    implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation("androidx.navigation:navigation-compose:2.8.5")
+    implementation("androidx.navigation:navigation-ui:2.8.5")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

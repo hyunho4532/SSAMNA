@@ -1,6 +1,6 @@
 package com.asetec.domain.repository.user
 
-import com.asetec.domain.dto.user.User
+import com.asetec.domain.model.user.User
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 

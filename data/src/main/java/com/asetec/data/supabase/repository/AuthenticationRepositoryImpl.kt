@@ -1,7 +1,7 @@
 package com.asetec.data.supabase.repository
 
-import com.asetec.domain.dto.user.User
-import com.asetec.domain.dto.user.UserDTO
+import com.asetec.domain.model.user.User
+import com.asetec.domain.model.user.UserDTO
 import com.asetec.domain.repository.user.AuthenticationRepository
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException

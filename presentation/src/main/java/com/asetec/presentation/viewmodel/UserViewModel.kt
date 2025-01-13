@@ -3,7 +3,7 @@ package com.asetec.presentation.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.asetec.domain.dto.user.User
+import com.asetec.domain.model.user.User
 import com.asetec.domain.usecase.user.LoginCase
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task

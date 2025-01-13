@@ -52,6 +52,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.work:work-runtime-ktx:2.7.0")
     implementation ("com.github.PratikFagadiya:AnimatedSmoothBottomNavigation-JetpackCompose:1.1.2")
     implementation("com.google.maps.android:maps-compose:2.11.1")
     implementation("com.google.android.gms:play-services-maps:18.1.0")

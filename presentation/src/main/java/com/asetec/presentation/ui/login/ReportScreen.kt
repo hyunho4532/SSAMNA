@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.asetec.domain.dto.user.User
+import com.asetec.domain.model.user.User
 import com.asetec.presentation.ui.main.home.HomeActivity
 import com.asetec.presentation.ui.tool.ReportCard
 import com.asetec.presentation.viewmodel.UserViewModel

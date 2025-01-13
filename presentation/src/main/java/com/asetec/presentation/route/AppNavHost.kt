@@ -2,14 +2,13 @@ package com.asetec.presentation.route
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableIntState
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.asetec.domain.dto.user.User
+import com.asetec.domain.model.user.User
 import com.asetec.presentation.animation.Screens
 import com.asetec.presentation.ui.login.LoginScreen
 import com.asetec.presentation.ui.login.ReportScreen
@@ -80,7 +79,8 @@ fun ScreenNavigationConfiguration(
 
         composable(Screens.HomeScreen.route) {
             HomeScreen(
-                fusedLocationClient = fusedLocationClient
+                fusedLocationClient = fusedLocationClient,
+                context = context
             )
         }
 

@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.asetec.domain.dto.user.User
+import com.asetec.domain.model.user.User
 
 @Composable
 fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {

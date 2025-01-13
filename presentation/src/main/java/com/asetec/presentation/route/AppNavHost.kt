@@ -1,12 +1,18 @@
 package com.asetec.presentation.route
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.asetec.domain.dto.user.User
 import com.asetec.presentation.ui.login.LoginScreen
+import com.asetec.presentation.ui.login.ReportScreen
+import com.asetec.presentation.ui.login.UserInfoScreen
 import com.asetec.presentation.ui.splash.OnBoardingScreen
 import com.asetec.presentation.ui.splash.SplashScreen
+import kotlinx.serialization.json.Json
 
 @Composable
 fun AppNavHost() {
@@ -20,7 +26,36 @@ fun AppNavHost() {
             OnBoardingScreen(navController = navController)
         }
         composable("login") {
-            LoginScreen()
+            LoginScreen(navController = navController)
+        }
+
+        composable(
+            route = "userInfo?authState={authState}",
+            arguments = listOf(navArgument("authState") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            val authStateJson = backStackEntry.arguments?.getString("authState")
+            val user = Json.decodeFromString<User>(authStateJson!!)
+
+            UserInfoScreen(
+                navController = navController,
+                user = user
+            )
+        }
+
+        composable(
+            route = "report?userState={userState}",
+            arguments = listOf(
+                navArgument("userState") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val userStateJson = backStackEntry.arguments?.getString("userState")
+            val userState = Json.decodeFromString<User>(userStateJson!!)
+
+            ReportScreen(userState)
         }
     }
 }

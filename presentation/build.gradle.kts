@@ -1,4 +1,9 @@
+import java.util.Properties
+
 plugins {
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
+    kotlin("plugin.serialization")
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
@@ -47,8 +52,26 @@ android {
 }
 
 dependencies {
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.github.jan-tennert.supabase:compose-auth:2.4.2")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.4.2")
+    implementation("androidx.credentials:credentials:1.2.2")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("io.ktor:ktor-client-android:2.3.1")
+    implementation("io.ktor:ktor-client-core:2.3.1")
+    implementation("io.ktor:ktor-utils:2.3.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+    implementation(platform("io.github.jan-tennert.supabase:bom:2.4.2"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("androidx.browser:browser:1.5.0")
     implementation("com.airbnb.android:lottie-compose:6.6.2")
-    implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation("androidx.navigation:navigation-compose:2.8.5")
+    implementation("androidx.navigation:navigation-ui:2.8.5")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -66,4 +89,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(project(":data"))
+    implementation(project(":domain"))
 }

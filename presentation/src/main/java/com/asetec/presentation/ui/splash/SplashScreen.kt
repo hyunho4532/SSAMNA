@@ -39,6 +39,8 @@ fun SplashScreen(navController: NavController) {
             SplashLoader(R.raw.splash)
         }
 
-        CircularProgress()
+        CircularProgress(
+            text = "운동의 여정을 불러오는 중"
+        )
     }
 }

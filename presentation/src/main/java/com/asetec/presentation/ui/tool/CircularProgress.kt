@@ -13,12 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CircularProgress() {
+fun CircularProgress(
+    text: String
+) {
     Row (
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = "운동의 여정을 불러오는 중")
+        Text(text = text)
         Spacer(width = 16.dp, height = 0.dp)
         CircularProgressIndicator(
             modifier = Modifier

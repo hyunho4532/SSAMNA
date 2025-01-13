@@ -1,5 +1,6 @@
 package com.asetec.presentation.route
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
 import androidx.navigation.NavHostController
@@ -13,10 +14,12 @@ import com.asetec.presentation.animation.Screens
 import com.asetec.presentation.ui.login.LoginScreen
 import com.asetec.presentation.ui.login.ReportScreen
 import com.asetec.presentation.ui.login.UserInfoScreen
+import com.asetec.presentation.ui.main.home.screen.AnalyzeScreen
 import com.asetec.presentation.ui.main.home.screen.HomeScreen
 import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.splash.OnBoardingScreen
 import com.asetec.presentation.ui.splash.SplashScreen
+import com.google.android.gms.location.LocationServices
 import kotlinx.serialization.json.Json
 
 @Composable
@@ -66,12 +69,23 @@ fun AppNavHost() {
 }
 
 @Composable
-fun ScreenNavigationConfiguration(navController: NavHostController) {
+fun ScreenNavigationConfiguration(
+    navController: NavHostController,
+    context: Context
+) {
+
+    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
     NavHost(navController = navController, startDestination = Screens.HomeScreen.route) {
 
         composable(Screens.HomeScreen.route) {
-            HomeScreen()
+            HomeScreen(
+                fusedLocationClient = fusedLocationClient
+            )
+        }
+
+        composable(Screens.AnalyzeScreen.route) {
+            AnalyzeScreen()
         }
 
         composable(Screens.ProfileScreen.route) {

@@ -55,6 +55,8 @@ dependencies {
     implementation ("com.github.PratikFagadiya:AnimatedSmoothBottomNavigation-JetpackCompose:1.1.2")
     implementation("com.google.maps.android:maps-compose:2.11.1")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.google.accompanist:accompanist-permissions:0.37.0")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("io.github.jan-tennert.supabase:compose-auth:2.4.2")

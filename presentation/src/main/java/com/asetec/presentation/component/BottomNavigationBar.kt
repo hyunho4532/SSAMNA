@@ -24,14 +24,14 @@ fun BottomNavigationBar(
         bottomNavigationItems = items,
         initialIndex = currentIndex,
         bottomBarProperties = BottomBarProperties(
-            backgroundColor = Blue,     // Change the background color
-            indicatorColor = Color.White.copy(alpha = 0.2F),  // Change the indicator color with Alpha
-            iconTintColor = BlueTint, // Change the icon tint color
-            iconTintActiveColor = Color.White, // Change the active icon tint color
-            textActiveColor = Color.White, // Change the active text color
-            cornerRadius = 18.dp,  // Increase the corner radius
-            fontWeight = FontWeight.Medium,  // Change the font weight
-            fontSize = 16.sp // Increase or Decrease the font size
+            backgroundColor = Color.White,
+            indicatorColor = Color.White.copy(alpha = 0.5F),
+            iconTintColor = Color.Gray,
+            iconTintActiveColor = Color.Black,
+            textActiveColor = Color.Black,
+            cornerRadius = 18.dp,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.sp
         ),
         onSelectItem = {
             Log.d("BottomNavigationBar", it.name)

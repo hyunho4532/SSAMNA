@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.rememberNavController
 import com.PratikFagadiya.smoothanimationbottombar.model.SmoothAnimationBottomBarScreens
@@ -27,21 +28,28 @@ import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 @Composable
 fun RootScreen() {
 
+    val context = LocalContext.current
+
     val bottomNavigationItems = listOf(
         SmoothAnimationBottomBarScreens(
             Screens.HomeScreen.route,
             stringResource(id = R.string.nav_home),
-            Icons.Default.Home
+            R.drawable.baseline_home_24
+        ),
+        SmoothAnimationBottomBarScreens(
+            Screens.AnalyzeScreen.route,
+            stringResource(id = R.string.nav_analyze),
+            R.drawable.baseline_bar_chart_24
         ),
         SmoothAnimationBottomBarScreens(
             Screens.ProfileScreen.route,
             stringResource(id = R.string.nav_profile),
-            Icons.Default.Person
+            R.drawable.baseline_person_24
         )
     )
 
     val navController = rememberNavController()
-    val bottomNaviIndex = rememberSaveable {
+    val currentIndex = rememberSaveable {
         mutableIntStateOf(0)
     }
 
@@ -49,12 +57,18 @@ fun RootScreen() {
         bottomBar = {
             BottomNavigationBar(
                 items = bottomNavigationItems,
-                currentIndex = bottomNaviIndex,
+                currentIndex = currentIndex,
                 navController = navController
             )
         }
     ) { innerPadding ->
-        Modifier.padding(innerPadding)
-        ScreenNavigationConfiguration(navController = navController)
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(innerPadding)) {
+            ScreenNavigationConfiguration(
+                navController = navController,
+                context = context
+            )
+        }
     }
 }

@@ -1,12 +1,21 @@
 package com.asetec.presentation.ui.main.home.screen
 
+
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,8 +26,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.asetec.presentation.service.LocationService
 import com.asetec.presentation.ui.tool.CircularProgress
 import com.asetec.presentation.viewmodel.LocationViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -30,19 +43,16 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import dagger.hilt.android.qualifiers.ApplicationContext
 
+@SuppressLint("UseOfNonLambdaOffsetOverload")
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HomeScreen(
     fusedLocationClient: FusedLocationProviderClient,
-    locationViewModel: LocationViewModel = hiltViewModel(),
-    @ApplicationContext context: Context
+    locationViewModel: LocationViewModel = hiltViewModel()
 ) {
 
     val locationState = locationViewModel.location.collectAsState()
-
-    val locationService = LocationService()
 
     var isLocationLoaded by remember {
         mutableStateOf(false)
@@ -53,6 +63,18 @@ fun HomeScreen(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
+    )
+
+    var isPanelVisible by remember {
+        mutableStateOf(false)
+    }
+
+    val panelWidth by animateDpAsState(targetValue = if (isPanelVisible) 10.dp else 0.dp,
+        label = ""
+    )
+
+    val buttonOffset by animateDpAsState(targetValue = if (isPanelVisible) (-214).dp else 0.dp,
+        label = ""
     )
 
     LaunchedEffect (key1 = Unit) {
@@ -89,12 +111,44 @@ fun HomeScreen(
                 )
             }
 
-            Button(onClick = {
-                locationViewModel.startLocationUpdates(context)
-            }) {
-                Text(text = "테스트")
+            Box (
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Button(
+                    onClick = { isPanelVisible = !isPanelVisible },
+                    modifier = Modifier
+                        .width(58.dp)
+                        .height(50.dp)
+                        .offset(x = buttonOffset)
+                        .align(Alignment.CenterEnd),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black
+                    ),
+                    shape = RectangleShape
+                ) {
+                    Text(
+                        text = if (isPanelVisible) "→" else "←",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                if (isPanelVisible) {
+                    Box(
+                        modifier = Modifier
+                            .width(230.dp)
+                            .height(180.dp)
+                            .offset(x = panelWidth)
+                            .align(Alignment.CenterEnd)
+                            .background(Color.White)
+                            .animateContentSize()
+                    ) {
+
+                    }
+                }
             }
-            
+
         } else {
             Box(
                 modifier = Modifier.fillMaxSize(),

@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
 
             LaunchedEffect(key1 = Unit) {
                 val id = userViewModel.user.value.id
-                
+
                 if (id != "") {
                     navigateToHome()
                 }

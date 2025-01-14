@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.presentation.component.HomeAside
 import com.asetec.presentation.ui.tool.CircularProgress
-import com.asetec.presentation.viewmodel.LocationViewModel
+import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -48,11 +48,11 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun HomeScreen(
     fusedLocationClient: FusedLocationProviderClient,
-    locationViewModel: LocationViewModel = hiltViewModel(),
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     context: Context
 ) {
 
-    val locationState = locationViewModel.location.collectAsState()
+    val locationState = activityLocationViewModel.locations.collectAsState()
 
     var isLocationLoaded by remember {
         mutableStateOf(false)
@@ -73,7 +73,7 @@ fun HomeScreen(
         label = ""
     )
 
-    val buttonOffset by animateDpAsState(targetValue = if (isPanelVisible) (-270).dp else 0.dp,
+    val buttonOffset by animateDpAsState(targetValue = if (isPanelVisible) (-130).dp else 0.dp,
         label = ""
     )
 
@@ -83,7 +83,7 @@ fun HomeScreen(
 
     LaunchedEffect(locationPermissionState.allPermissionsGranted) {
         if (locationPermissionState.allPermissionsGranted) {
-            locationViewModel.getCurrentLocation(fusedLocationClient) {
+            activityLocationViewModel.getCurrentLocation(fusedLocationClient) {
                 isLocationLoaded = true
             }
         }
@@ -137,7 +137,7 @@ fun HomeScreen(
                 if (isPanelVisible) {
                     Box(
                         modifier = Modifier
-                            .width(280.dp)
+                            .width(140.dp)
                             .height(180.dp)
                             .offset(x = panelWidth)
                             .align(Alignment.CenterEnd)

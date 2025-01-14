@@ -1,24 +1,31 @@
 package com.asetec.presentation.component
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,17 +33,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.presentation.R
 import com.asetec.presentation.component.dialog.BottomSheet
 import com.asetec.presentation.ui.tool.Spacer
+import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeAside(
-    context: Context
+    context: Context,
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel()
 ) {
+    val activates by activityLocationViewModel.activates.collectAsState()
 
-    var showBottomSheet = remember {
+    val showBottomSheet = remember {
         mutableStateOf(false)
     }
 
@@ -46,143 +58,142 @@ fun HomeAside(
 
     Column (
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.Top
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Row (
-            modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.SpaceAround,
+        Box (
+            modifier = Modifier
+                .width(110.dp)
+                .height(60.dp)
+                .clickable (
+                    interactionSource = remember {
+                        MutableInteractionSource()
+                    },
+                    indication = rememberRipple(
+                        color = Color.Gray,
+                        bounded = false
+                    )
+                ) {
+                    showBottomSheet.value = true
+                }
         ) {
-            Column (
-                modifier = Modifier
-                    .clickable (
-                        interactionSource = remember {
-                            MutableInteractionSource()
-                        },
-                        indication = rememberRipple(
-                            color = Color.Gray,
-                            bounded = false
-                        )
-                    ) {
-                        showBottomSheet.value = true
-                    }
+            Text(
+                text = "활동 종류",
+                modifier = Modifier.padding(top = 8.dp)
+            )
+
+            Row (
+                modifier = Modifier.padding(top = 32.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "활동 종류",
-                    modifier = Modifier.padding(
-                        top = 8.dp,
-                    )
+
+                Image(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(id = activates.activateResId),
+                    contentDescription = "달리는 사람 아이콘"
                 )
 
-                Row (
-                    modifier = Modifier
-                        .padding(top = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-
-                    Image(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = R.drawable.baseline_persons_run_24),
-                        contentDescription = "달리는 사람 아이콘"
-                    )
-
-                    Text(
-                        text = "달리기",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-
-            Column(
-                modifier = Modifier.clickable(
-                    interactionSource = remember {
-                        MutableInteractionSource()
-                    },
-                    indication = rememberRipple(
-                        color = Color.Gray,
-                        bounded = false
-                    )
-                ) {
-
-                }
-            ) {
                 Text(
-                    text = "운동 시간",
-                    modifier = Modifier.padding(top = 8.dp)
+                    text = activates.activateName,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
                 )
-
-                Row (
-                    modifier = Modifier
-                        .padding(top = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-
-                    Image(
-                        modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = R.drawable.baseline_access_time_24),
-                        contentDescription = "운동 시간 아이콘"
-                    )
-
-                    Spacer(width = 2.dp, height = 0.dp)
-
-                    Text(
-                        text = "시간",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-
-            Column(
-                modifier = Modifier.clickable(
-                    interactionSource = remember {
-                        MutableInteractionSource()
-                    },
-                    indication = rememberRipple(
-                        color = Color.Gray,
-                        bounded = false
-                    )
-                ) {
-
-                }
-            ) {
-                Text(
-                    text = "목표 거리",
-                    modifier = Modifier.padding(
-                        top = 8.dp,
-                    )
-                )
-
-                Row (
-                    modifier = Modifier
-                        .padding(top = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-
-                    Image(
-                        modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = R.drawable.baseline_fmd_good_24),
-                        contentDescription = "목표 지점 아이콘"
-                    )
-
-                    Spacer(width = 2.dp, height = 0.dp)
-
-                    Text(
-                        text = "거리",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
             }
         }
 
-        BottomSheet(
-            sheetState = sheetState,
-            showBottomSheet = showBottomSheet
-        )
+        Box (
+            modifier = Modifier
+                .width(110.dp)
+                .height(60.dp)
+                .clickable (
+                    interactionSource = remember {
+                        MutableInteractionSource()
+                    },
+                    indication = rememberRipple(
+                        color = Color.Gray,
+                        bounded = false
+                    )
+                ) {
+                    showBottomSheet.value = true
+                }
+        ) {
+            Text(
+                text = "운동 시간",
+                modifier = Modifier.padding(top = 8.dp)
+            )
+
+            Row (
+                modifier = Modifier
+                    .padding(top = 32.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+
+                Image(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(id = R.drawable.baseline_access_time_24),
+                    contentDescription = "운동 시간 아이콘"
+                )
+
+                Spacer(width = 2.dp, height = 0.dp)
+
+                Text(
+                    text = "시간",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+
+        Box (
+            modifier = Modifier
+                .width(110.dp)
+                .height(60.dp)
+                .clickable (
+                    interactionSource = remember {
+                        MutableInteractionSource()
+                    },
+                    indication = rememberRipple(
+                        color = Color.Gray,
+                        bounded = false
+                    )
+                ) {
+                    showBottomSheet.value = true
+                }
+        ) {
+            Text(
+                text = "목표 거리",
+                modifier = Modifier.padding(top = 8.dp)
+            )
+
+            Row (
+                modifier = Modifier
+                    .padding(top = 32.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+
+                Image(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(id = R.drawable.baseline_fmd_good_24),
+                    contentDescription = "목표 지점 아이콘"
+                )
+
+                Spacer(width = 2.dp, height = 0.dp)
+
+                Text(
+                    text = "거리",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
     }
+
+    BottomSheet(
+        context = context,
+        sheetState = sheetState,
+        showBottomSheet = showBottomSheet
+    )
 }

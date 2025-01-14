@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Location(
-    var latitude: Double,
-    var longitude: Double
+    /** 위도, 경도 **/
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0,
 )

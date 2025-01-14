@@ -1,5 +1,6 @@
 package com.asetec.presentation.component.dialog
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import com.asetec.presentation.viewmodel.JsonParseViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomSheet(
+    context: Context,
     showBottomSheet: MutableState<Boolean>,
     sheetState: SheetState,
     jsonParseViewModel: JsonParseViewModel = hiltViewModel()
@@ -72,9 +74,11 @@ fun BottomSheet(
                 ) {
                     jsonParseViewModel.activateJsonData.forEach { activate ->
                         activateCard(
+                            context = context,
                             width = 340.dp,
                             height = 60.dp,
-                            activate = activate
+                            activate = activate,
+                            showBottomSheet = showBottomSheet
                         )
                     }
                 }

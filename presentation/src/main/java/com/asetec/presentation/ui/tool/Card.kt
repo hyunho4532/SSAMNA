@@ -1,11 +1,14 @@
 package com.asetec.presentation.ui.tool
 
+import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,11 +21,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,9 +44,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.user.User
+import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 
 @Composable
 fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {
@@ -207,27 +215,57 @@ fun ReportCard(
 
 @Composable
 fun activateCard(
+    context: Context,
     width: Dp,
     height: Dp,
-    activate: Activate
+    activate: Activate,
+    showBottomSheet: MutableState<Boolean>,
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel()
 ) {
+
+    val imageName = activate.assets.replace("R.drawable.", "")
+
+    val imageResId = context.resources.getIdentifier(imageName, "drawable", context.packageName)
+
     Card (
         modifier = Modifier
             .width(width)
             .height(height)
             .padding(top = 8.dp, start = 8.dp)
-            .shadow(
-                elevation = 3.dp
-            ),
+            .clickable(
+                interactionSource = remember {
+                    MutableInteractionSource()
+                },
+                indication = rememberRipple(
+                    color = Color.Gray,
+                    bounded = true
+                )
+            ) {
+                showBottomSheet.value = false
+                activityLocationViewModel.getActivateName(
+                    activateResId = imageResId,
+                    activateName = activate.name
+                )
+            },
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         )
     ) {
-        Text(
-            text = activate.name,
-            modifier = Modifier
-                .padding(top = 4.dp, start = 4.dp)
-        )
+
+        Row {
+            Text(
+                text = activate.name,
+                modifier = Modifier
+                    .padding(top = 4.dp, start = 4.dp)
+            )
+
+            Spacer(width = 4.dp, height = 0.dp)
+
+            Image(
+                painter = painterResource(id = imageResId),
+                contentDescription = "활동 종류 아이콘"
+            )
+        }
 
         Text(
             text = activate.description,
@@ -236,5 +274,16 @@ fun activateCard(
             fontSize = 12.sp,
             fontWeight = FontWeight.Light
         )
+
+        Box(
+            modifier = Modifier.padding(top = 4.dp)
+        ) {
+            Divider(
+                color = Color.Gray,
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
+        }
     }
 }

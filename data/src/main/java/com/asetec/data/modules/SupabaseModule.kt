@@ -1,4 +1,4 @@
-package com.asetec.data.supabase
+package com.asetec.data.modules
 
 import com.asetec.data.BuildConfig
 import dagger.Module

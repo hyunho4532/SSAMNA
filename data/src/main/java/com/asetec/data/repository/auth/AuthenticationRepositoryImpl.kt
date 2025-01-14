@@ -1,4 +1,4 @@
-package com.asetec.data.supabase.repository
+package com.asetec.data.repository.auth
 
 import com.asetec.domain.model.user.User
 import com.asetec.domain.model.user.UserDTO

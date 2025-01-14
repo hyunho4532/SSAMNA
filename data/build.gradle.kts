@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.code.gson:gson:2.8.9")
+
     implementation("io.github.jan-tennert.supabase:compose-auth:2.4.2")
     implementation("io.github.jan-tennert.supabase:gotrue-kt:2.4.2")
     implementation("androidx.credentials:credentials:1.2.2")

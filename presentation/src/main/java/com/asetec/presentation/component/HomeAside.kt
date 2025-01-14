@@ -32,7 +32,9 @@ import com.asetec.presentation.ui.tool.Spacer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeAside(context: Context) {
+fun HomeAside(
+    context: Context
+) {
 
     var showBottomSheet = remember {
         mutableStateOf(false)

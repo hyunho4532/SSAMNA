@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.user.User
 
 @Composable
@@ -201,5 +202,39 @@ fun ReportCard(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun activateCard(
+    width: Dp,
+    height: Dp,
+    activate: Activate
+) {
+    Card (
+        modifier = Modifier
+            .width(width)
+            .height(height)
+            .padding(top = 8.dp, start = 8.dp)
+            .shadow(
+                elevation = 3.dp
+            ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Text(
+            text = activate.name,
+            modifier = Modifier
+                .padding(top = 4.dp, start = 4.dp)
+        )
+
+        Text(
+            text = activate.description,
+            modifier = Modifier
+                .padding(top = 4.dp, start = 4.dp),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Light
+        )
     }
 }

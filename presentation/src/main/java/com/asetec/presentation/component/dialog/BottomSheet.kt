@@ -1,11 +1,14 @@
 package com.asetec.presentation.component.dialog
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
@@ -26,10 +29,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.presentation.ui.tool.activateCard
 import com.asetec.presentation.viewmodel.JsonParseViewModel
+import com.asetec.presentation.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheet(
+fun ActivateBottomSheet(
     context: Context,
     showBottomSheet: MutableState<Boolean>,
     sheetState: SheetState,
@@ -42,7 +46,7 @@ fun BottomSheet(
 
     LaunchedEffect(key1 = Unit) {
         if (jsonParseViewModel.activateJsonData.isEmpty()) {
-            jsonParseViewModel.activateJsonParse()
+            jsonParseViewModel.activateJsonParse("activate.json")
         }
         dataIsLoading = true
     }
@@ -68,7 +72,9 @@ fun BottomSheet(
                 }
 
                 Column (
-                    modifier = Modifier.fillMaxSize().padding(top = 16.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 16.dp),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -83,8 +89,68 @@ fun BottomSheet(
                     }
                 }
             }
-        } else {
-            Text(text = "데이터를 불러오고 있습니다!")
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TimeBottomSheet(
+    context: Context,
+    showBottomSheet: MutableState<Boolean>,
+    sheetState: SheetState,
+    jsonParseViewModel: JsonParseViewModel = hiltViewModel(),
+) {
+
+    var checked by remember {
+        mutableStateOf(false)
+    }
+
+    if (showBottomSheet.value) {
+        ModalBottomSheet(
+            modifier = Modifier
+                .fillMaxSize(),
+            sheetState = sheetState,
+            onDismissRequest = { showBottomSheet.value = false },
+            containerColor = Color.White
+        ) {
+
+            Box(
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Text(
+                    "시간을 입력해주세요!",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            Column (
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 16.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row (
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = "내가 입력한 시간 불러오기",
+                        fontSize = 16.sp
+                    )
+                    Checkbox(
+                        checked = checked,
+                        onCheckedChange = {
+                            if (it) {
+                                Toast.makeText(context, "입력한 시간으로 불러왔습니다!", Toast.LENGTH_SHORT).show()
+                            }
+                            checked = it
+                        }
+                    )
+                }
+            }
         }
     }
 }

@@ -13,11 +13,11 @@ data class User(
 
     val age: Float = 0f,
     val recentExerciseCheck: String = "네",
-    val recentExerciseName: String? = null,
+    val recentExerciseName: String = "",
 
     val recentWalkingCheck: String = "네",
     val recentWalkingOfWeek: String = "",
-    val recentWalkingOfTime: String = "",
+    val recentWalkingOfTime: String = "30",
 
     val targetPeriod: String = "네"
 )

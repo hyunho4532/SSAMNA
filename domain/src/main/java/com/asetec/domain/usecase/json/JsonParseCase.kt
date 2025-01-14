@@ -7,7 +7,7 @@ import javax.inject.Inject
 class JsonParseCase @Inject constructor(
     private val jsonParsingRepository: JsonParsingRepository
 ) {
-    fun invoke(): List<Activate> {
-        return jsonParsingRepository.activateJsonParse()
+    fun invoke(jsonFile: String): List<Activate> {
+        return jsonParsingRepository.jsonParse(jsonFile)
     }
 }

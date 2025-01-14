@@ -14,4 +14,25 @@ data class UserDTO (
 
     @SerialName("name")
     val name: String = "",
+
+    @SerialName("age")
+    val age: Int = 0,
+
+    @SerialName("recentExerciseCheck")
+    val recentExerciseCheck: String = "",
+
+    @SerialName("recentExerciseName")
+    val recentExerciseName: String = "",
+
+    @SerialName("recentWalkingCheck")
+    val recentWalkingCheck: String = "",
+
+    @SerialName("recentWalkingOfWeek")
+    val recentWalkingOfWeek: String = "",
+
+    @SerialName("recentWalkingOfTime")
+    val recentWalkingOfTime: String = "",
+
+    @SerialName("targetPeriod")
+    val targetPeriod: String = ""
 )

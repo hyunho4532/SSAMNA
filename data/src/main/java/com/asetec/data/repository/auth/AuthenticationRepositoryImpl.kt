@@ -38,8 +38,18 @@ class AuthenticationRepositoryImpl @Inject constructor(
             googleId = user.id,
             email = user.email,
             name = user.name,
+            age = user.age.toInt(),
+            recentExerciseCheck = user.recentExerciseCheck,
+            recentExerciseName = user.recentExerciseName,
+            recentWalkingCheck = user.recentWalkingCheck,
+            recentWalkingOfWeek = user.recentWalkingOfWeek,
+            recentWalkingOfTime = user.recentWalkingOfTime
         )
 
         postgrest.from("User").insert(userDTO)
+    }
+
+    override suspend fun selectUserFindById(googleId: String) {
+        
     }
 }

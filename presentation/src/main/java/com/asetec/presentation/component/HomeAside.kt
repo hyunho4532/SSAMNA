@@ -2,7 +2,6 @@ package com.asetec.presentation.component
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -15,13 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,20 +32,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.presentation.R
-import com.asetec.presentation.component.dialog.BottomSheet
+import com.asetec.presentation.component.dialog.ActivateBottomSheet
+import com.asetec.presentation.component.dialog.TimeBottomSheet
 import com.asetec.presentation.ui.tool.Spacer
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import com.asetec.presentation.viewmodel.UserViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeAside(
     context: Context,
-    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel()
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel()
 ) {
     val activates by activityLocationViewModel.activates.collectAsState()
 
-    val showBottomSheet = remember {
+    val showActivateBottomSheet = remember {
+        mutableStateOf(false)
+    }
+
+    val showTimeBottomSheet = remember {
         mutableStateOf(false)
     }
 
@@ -63,27 +67,27 @@ fun HomeAside(
     ) {
         Box (
             modifier = Modifier
-                .width(110.dp)
+                .fillMaxWidth()
                 .height(60.dp)
-                .clickable (
+                .clickable(
                     interactionSource = remember {
                         MutableInteractionSource()
                     },
                     indication = rememberRipple(
                         color = Color.Gray,
-                        bounded = false
+                        bounded = true
                     )
                 ) {
-                    showBottomSheet.value = true
+                    showActivateBottomSheet.value = true
                 }
         ) {
             Text(
                 text = "활동 종류",
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp, start = 14.dp)
             )
 
             Row (
-                modifier = Modifier.padding(top = 32.dp),
+                modifier = Modifier.padding(top = 32.dp, start = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -104,28 +108,27 @@ fun HomeAside(
 
         Box (
             modifier = Modifier
-                .width(110.dp)
+                .fillMaxWidth()
                 .height(60.dp)
-                .clickable (
+                .clickable(
                     interactionSource = remember {
                         MutableInteractionSource()
                     },
                     indication = rememberRipple(
                         color = Color.Gray,
-                        bounded = false
+                        bounded = true
                     )
                 ) {
-                    showBottomSheet.value = true
+                    showTimeBottomSheet.value = true
                 }
         ) {
             Text(
                 text = "운동 시간",
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp, start = 14.dp)
             )
 
             Row (
-                modifier = Modifier
-                    .padding(top = 32.dp),
+                modifier = Modifier.padding(top = 32.dp, start = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -139,7 +142,7 @@ fun HomeAside(
                 Spacer(width = 2.dp, height = 0.dp)
 
                 Text(
-                    text = "시간",
+                    text = "${userViewModel.user.value.recentWalkingOfTime}분",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -148,28 +151,27 @@ fun HomeAside(
 
         Box (
             modifier = Modifier
-                .width(110.dp)
+                .fillMaxWidth()
                 .height(60.dp)
-                .clickable (
+                .clickable(
                     interactionSource = remember {
                         MutableInteractionSource()
                     },
                     indication = rememberRipple(
                         color = Color.Gray,
-                        bounded = false
+                        bounded = true
                     )
                 ) {
-                    showBottomSheet.value = true
+                    showActivateBottomSheet.value = true
                 }
         ) {
             Text(
                 text = "목표 거리",
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp, start = 14.dp)
             )
 
             Row (
-                modifier = Modifier
-                    .padding(top = 32.dp),
+                modifier = Modifier.padding(top = 32.dp, start = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -191,9 +193,15 @@ fun HomeAside(
         }
     }
 
-    BottomSheet(
+    ActivateBottomSheet(
         context = context,
         sheetState = sheetState,
-        showBottomSheet = showBottomSheet
+        showBottomSheet = showActivateBottomSheet
+    )
+
+    TimeBottomSheet(
+        context = context,
+        sheetState = sheetState,
+        showBottomSheet = showTimeBottomSheet
     )
 }

@@ -15,8 +15,8 @@ class JsonParseViewModel @Inject constructor(
     private val _activateJsonData = mutableListOf<Activate>()
     val activateJsonData = _activateJsonData
 
-    fun activateJsonParse() {
-        val activateData = jsonParseCase.invoke()
+    fun activateJsonParse(fileName: String) {
+        val activateData = jsonParseCase.invoke(fileName)
 
         for (activate in activateData) {
             _activateJsonData.add(activate)

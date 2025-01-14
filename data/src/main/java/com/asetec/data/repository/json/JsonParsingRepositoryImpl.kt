@@ -18,11 +18,11 @@ class JsonParsingRepositoryImpl @Inject constructor(
 
     private val activateListType = object : TypeToken<List<Activate>>() {}.type
 
-    override fun activateJsonParse(): List<Activate> {
+    override fun jsonParse(jsonFile: String): List<Activate> {
 
         val assetManager: AssetManager = context.assets
 
-        val json: String = assetManager.open("activate.json").bufferedReader().use {
+        val json: String = assetManager.open(jsonFile).bufferedReader().use {
             it.readText()
         }
 

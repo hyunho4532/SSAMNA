@@ -9,10 +9,8 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -32,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asetec.presentation.component.HomeAside
 import com.asetec.presentation.ui.tool.CircularProgress
 import com.asetec.presentation.viewmodel.LocationViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -49,7 +48,8 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun HomeScreen(
     fusedLocationClient: FusedLocationProviderClient,
-    locationViewModel: LocationViewModel = hiltViewModel()
+    locationViewModel: LocationViewModel = hiltViewModel(),
+    context: Context
 ) {
 
     val locationState = locationViewModel.location.collectAsState()
@@ -73,7 +73,7 @@ fun HomeScreen(
         label = ""
     )
 
-    val buttonOffset by animateDpAsState(targetValue = if (isPanelVisible) (-214).dp else 0.dp,
+    val buttonOffset by animateDpAsState(targetValue = if (isPanelVisible) (-270).dp else 0.dp,
         label = ""
     )
 
@@ -137,14 +137,14 @@ fun HomeScreen(
                 if (isPanelVisible) {
                     Box(
                         modifier = Modifier
-                            .width(230.dp)
+                            .width(280.dp)
                             .height(180.dp)
                             .offset(x = panelWidth)
                             .align(Alignment.CenterEnd)
                             .background(Color.White)
                             .animateContentSize()
                     ) {
-
+                        HomeAside(context = context)
                     }
                 }
             }
